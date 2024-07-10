@@ -1,0 +1,50 @@
+name: GitHub Automation
+
+on:
+  issues:
+    types:
+      - opened
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  auto_assign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign the creator of the issue
+        if: github.event_name == 'issues'
+        run: |
+          creator="${{ github.event.issue.user.login }}"
+          gh issue assign ${{ github.event.issue.number }} --assignee "$creator"
+
+  issue_comments:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on new issue
+        if: github.event_name == 'issues'
+        run: |
+          # Replace with your desired comment
+          comment="Thank you for opening this issue. We will look into it shortly!"
+          gh issue comment ${{ github.event.issue.number }} --body "$comment"
+
+      - name: Comment on new pull request
+        if: github.event_name == 'pull_request'
+        run: |
+          # Replace with your desired comment
+          comment="Thanks for the pull request! We'll review it as soon as possible."
+          gh issue comment ${{ github.event.issue.number }} --body "$comment"
+
+  label_issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label issues
+        if: github.event_name == 'issues'
+        run: |
+          # Replace with the labels you want to apply based on conditions
+          if [[ "${{ github.event.issue.title }}" == *"[Urgent]"* ]]; then
+            gh issue label ${{ github.event.issue.number }} add Urgent
+          fi
+          if [[ "${{ github.event.issue.body }}" == *"Needs Triage"* ]]; then
+            gh issue label ${{ github.event.issue.number }} add Needs Triage
+          fi

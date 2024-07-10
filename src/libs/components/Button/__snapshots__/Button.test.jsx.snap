@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Buttons > Buttons component renders correctly 1`] = `
+<button
+  className=""
+>
+  <span
+    className="p-4 font-[Raleway]"
+  >
+    Click Me
+  </span>
+</button>
+`;
+
+exports[`Buttons > The Buttons prop works 1`] = `
+<button
+  className="md"
+  onClick={[Function]}
+  type="submit"
+>
+  <span
+    className="p-4 font-[Raleway]"
+  >
+    Button
+  </span>
+</button>
+`;
